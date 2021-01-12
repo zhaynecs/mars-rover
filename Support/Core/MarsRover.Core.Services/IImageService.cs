@@ -1,13 +1,11 @@
-﻿using MarsRover.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarsRover.Core.Services
 {
     public interface IImageService
     {
-        Task<IEnumerable<Image>> GetMarsRoverImagesAsync(IEnumerable<DateTime> dates);
+        Task<bool> DownloadMarsRoverImagesAsync(string rover, IEnumerable<DateTime> dates);
     }
 }

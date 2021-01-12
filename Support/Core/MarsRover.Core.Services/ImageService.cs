@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MarsRover.Core.Services
@@ -11,24 +13,26 @@ namespace MarsRover.Core.Services
     {
         private readonly ILogger<ImageService> logger;
 
-        private readonly IMarsRoverClient marsRoverApiService;
-        public ImageService(ILogger<ImageService> logger, IMarsRoverClient marsRoverApiService)
+        private readonly IMarsRoverService marsRoverService;
+        private readonly HttpClient httpClient;
+
+        public ImageService(ILogger<ImageService> logger, IMarsRoverService marsRoverService, HttpClient httpClient)
         {
             this.logger = logger;
-            this.marsRoverApiService = marsRoverApiService;
+            this.marsRoverService = marsRoverService;
+            this.httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<Image>> GetMarsRoverImagesAsync(IEnumerable<DateTime> dates)
+        public async Task<bool> DownloadMarsRoverImagesAsync(string rover, IEnumerable<DateTime> dates)
         {
-            if (dates == null || !dates.Any())
+            if (dates == null)
                 throw new ArgumentException("No dates provided");
 
-            var images = new List<Image>();
-            foreach(var d in dates)
+            foreach (var d in dates)
             {
                 try
                 {
-                    await foreach (var r in this.marsRoverApiService.GetImagesAsync(d))
+                    await foreach (var r in this.marsRoverService.GetImagesAsync(rover, d))
                     {
                         if (r == null || r.Photos == null || !r.Photos.Any())
                         {
@@ -36,15 +40,31 @@ namespace MarsRover.Core.Services
                             continue;
                         }
 
-                        var photos = r.Photos;
-                        images.AddRange(photos.Select(p => new Image
+                        var photoUri = r.Photos.ElementAt(r.Photos.Count() / 2).Uri;
+                        var fileName = Path.GetFileName(photoUri);
+
+                        var response = await httpClient.GetAsync(photoUri, HttpCompletionOption.ResponseHeadersRead);
+                        response.EnsureSuccessStatusCode();
+
+                        try
                         {
-                            Uri = p.Uri,
-                            TakenOn = p.TakenOn
-                        }));
+                            var responseStream = await response.Content.ReadAsStreamAsync();
+                            if (responseStream == null || !responseStream.CanRead)
+                                throw new Exception("Image cannot be downloaded");
+
+                            var path = $".\\Images\\{d.ToString("yyyy-MM-dd")}-{fileName}";
+                            using (var fileStream = new FileStream(path, FileMode.Create))
+                            {
+                                await responseStream.CopyToAsync(fileStream);
+                            }
+                        }
+                        finally
+                        {
+                            response.Dispose();
+                        }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     this.logger.LogError(e.Message);
                     this.logger.LogError(e.Source);
@@ -54,7 +74,7 @@ namespace MarsRover.Core.Services
                 }
             }
 
-            return images;
+            return true;
         }
     }
 }
