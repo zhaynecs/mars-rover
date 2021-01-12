@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MarsRover.Core.Services
 {
@@ -19,29 +20,34 @@ namespace MarsRover.Core.Services
             this.apiKeyConfig = apiKeyConfig;
         }
 
-        public async IAsyncEnumerable<MarsRoverPhotoResponseViewModel> GetImagesAsync(string rover, DateTime date, int page = 1)
+        public async Task<MarsRoverPhotoResponseViewModel> GetImageDataAsync(string rover, DateTime date, int page = 1)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
             var response = await this.httpClient.GetAsync($"rovers/{rover}/photos?earth_date={formattedDate}&page={page}&api_key={this.apiKeyConfig.Key}", HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
 
-            try
-            {
-                var responseStream = await response.Content.ReadAsStreamAsync();
-                if (responseStream == null || !responseStream.CanRead)
-                    throw new Exception("Empty response from API");
+            var responseString = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(responseString))
+                throw new Exception("Empty response from API");
 
-                using (var streamReader = new StreamReader(responseStream))
-                using (var jsonReader = new JsonTextReader(streamReader))
-                {
-                    yield return new JsonSerializer().Deserialize<MarsRoverPhotoResponseViewModel>(jsonReader);
-                }
-            }
-            finally
+            return JsonConvert.DeserializeObject<MarsRoverPhotoResponseViewModel>(responseString);
+        }
+
+        public async IAsyncEnumerable<MarsRoverPhotoResponseViewModel> GetImageDataStreamAsync(string rover, DateTime date, int page = 1)
+        {
+            var formattedDate = date.ToString("yyyy-MM-dd");
+            var response = await this.httpClient.GetAsync($"rovers/{rover}/photos?earth_date={formattedDate}&page={page}&api_key={this.apiKeyConfig.Key}", HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            if (responseStream == null || !responseStream.CanRead)
+                throw new Exception("Empty response from API");
+
+            using (var streamReader = new StreamReader(responseStream))
+            using (var jsonReader = new JsonTextReader(streamReader))
             {
-                response.Dispose();
+                yield return new JsonSerializer().Deserialize<MarsRoverPhotoResponseViewModel>(jsonReader);
             }
-            
         }
     }
 }

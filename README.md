@@ -1,25 +1,37 @@
 # Mars Rover - Image Downloader 
 
-The Mars Rover - Image Downloader is a simple Web API that downloads images taken by the Mars Rover. It leverages on the Mars Rover API, and a text file containing a list of dates.
+The Mars Rover - Image Downloader is a simple app that downloads images taken by the Mars Rover. It leverages on the Mars Rover API, and a text file containing a list of dates.
+
+## Project Contents
+- Console application
+- Web API
 
 ## Local Development
 ### Prerequisites 
 Mars Rover - Image Downloader requires the following:
 - dotnet core 3.1
-- API client (such as Postman)
+- API client (such as Postman) for Web API
 
-### Building for source
-```bash
-$ dotnet build
-```
+#### Testing the console app
+The console app can be run using any IDE that support dotnet core 3.1 (i.e. Visual Studio, Visual Studio Code). For best results, Visual Studio is recommended. 
 
-#### Running the source
-```bash
-$ dotnet run
-```
+A text file (*.txt) with line separated dates is required to download Mars Rover images, such that:
 
-#### Testing the app
-The app can be tested using any API client, such as Postman. For convenience, a Postman collection and environment is available in \Postman. 
+02/27/17
+June 2, 2018
+Jul-13-2016
+April 31, 2018
+
+The URI of this text file can be updated in the Input > DatesUri property in the appsettings.json. 
+
+##### App config setup
+The following details are required and can be updated in the Input section in the appsettings.json:
+- Rover - The name of the rover whose images will be downloaded. Default is curiosity
+- DatesUri - The URI of the text file containing the input dates
+- ImagesUri - The path where the downloaded images will be stored
+
+#### Testing the Web API
+The web API can be tested using any API client, such as Postman. For convenience, a Postman collection and environment is available in \Postman. 
 
 A text file (*.txt) with line separated dates is required to download Mars Rover images, such that:
 

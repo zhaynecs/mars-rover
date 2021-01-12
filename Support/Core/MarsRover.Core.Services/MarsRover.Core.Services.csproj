@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Config\MarsRover.Config.Models\MarsRover.Config.Models.csproj" />
-    <ProjectReference Include="..\..\ServiceBus\MarsRover.ServiceBus.Services\MarsRover.ServiceBus.Services.csproj" />
     <ProjectReference Include="..\MarsRover.Core.Models\MarsRover.Core.Models.csproj" />
   </ItemGroup>
 
