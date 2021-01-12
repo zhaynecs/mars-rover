@@ -36,13 +36,12 @@ namespace MarsRover.Api
                     client.BaseAddress = marsRoverClientConfig.Url;
                     client.DefaultRequestHeaders.Add("Accept", "application/json");
                 });
-            //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(600)));
+            // TODO: Add retry
 
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IImageService, ImageService>();
 
             services.AddControllers();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,8 +55,6 @@ namespace MarsRover.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
