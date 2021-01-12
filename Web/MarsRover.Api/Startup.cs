@@ -1,4 +1,3 @@
-using System;
 using MarsRover.Config.Models;
 using MarsRover.Core.Services;
 using Microsoft.AspNetCore.Builder;
@@ -28,9 +27,9 @@ namespace MarsRover.Api
             var marsRoverApiKeyConfig = new ApiKeyConfig();
             Configuration.GetSection("Auth:MarsRover").Bind(marsRoverApiKeyConfig);
 
-            services.AddSingleton(marsRoverApiKeyConfig);
+            services.AddSingleton<IApiKeyConfig>(marsRoverApiKeyConfig);
 
-            services.AddHttpClient<IMarsRoverClient, MarsRoverClient>(
+            services.AddHttpClient<IMarsRoverService, MarsRoverService>(
                 client =>
                 {
                     client.BaseAddress = marsRoverClientConfig.Url;
@@ -38,8 +37,9 @@ namespace MarsRover.Api
                 });
             // TODO: Add retry
 
+            services.AddHttpClient<IImageService, ImageService>();
+
             services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IImageService, ImageService>();
 
             services.AddControllers();
         }
