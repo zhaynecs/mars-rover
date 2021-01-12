@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace MarsRover.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UploadAsync([FromForm]IFormFile file)
+        public async Task<IActionResult> DownloadImagesAsync([FromForm]IFormFile file)
         {
             if (file == null)
             {
@@ -56,19 +57,9 @@ namespace MarsRover.Api.Controllers
                 return BadRequest("File does not contain any valid dates");
             }
 
-            var images = await this.imageService.GetMarsRoverImagesAsync(dates);
-            var viewModels = new List<DatedImagesViewModel>();
-            if (images == null || !images.Any())
-                return Ok(viewModels);
+            var success = await this.imageService.DownloadMarsRoverImagesAsync("curiosity", dates);
 
-            viewModels = images.GroupBy(i => i.TakenOn)
-                .Select(g => new DatedImagesViewModel
-                {
-                    TakenOn = g.Key,
-                    ImageUri = g.Select(gi => gi.Uri)
-                }).ToList();
-
-            return Ok(viewModels);
+            return Ok(success);
         }
 
     }
