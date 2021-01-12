@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IServiceBusConfig.cs" />
+    <Compile Remove="ServiceBusConfig.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="thwouhy4.uev~" />
   </ItemGroup>
 
