@@ -2,7 +2,7 @@
 
 namespace MarsRover.Config.Models
 {
-    public class HttpClientConfig
+    public class HttpClientConfig: IHttpClientConfig
     {
         public Uri Url { get; set; }
         public int Timeout { get; set; }

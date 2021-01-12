@@ -2,7 +2,7 @@
 
 namespace MarsRover.Config.Models
 {
-    public class ApiKeyConfig
+    public class ApiKeyConfig: IApiKeyConfig
     {
         public string Key { get; set; }
     }
