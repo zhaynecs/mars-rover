@@ -12,14 +12,14 @@ namespace MarsRover.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FileController : ControllerBase
+    public class ImageController : ControllerBase
     {
-        private readonly ILogger<FileController> logger;
+        private readonly ILogger<ImageController> logger;
 
         private readonly IFileService fileService;
         private readonly IImageService imageService;
 
-        public FileController(ILogger<FileController> logger, IFileService fileService, IImageService imageService)
+        public ImageController(ILogger<ImageController> logger, IFileService fileService, IImageService imageService)
         {
             this.logger = logger;
 
