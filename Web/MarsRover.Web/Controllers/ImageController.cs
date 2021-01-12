@@ -28,7 +28,7 @@ namespace MarsRover.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UploadAsync([FromForm] IFormFile file)
+        public async Task<IActionResult> DownloadImagesAsync([FromForm] IFormFile file)
         {
             if (file == null)
             {
@@ -56,7 +56,7 @@ namespace MarsRover.Web.Controllers
                 return BadRequest("File does not contain any valid dates");
             }
 
-            var images = await this.imageService.GetMarsRoverImagesAsync(dates);
+            var images = await this.imageService.DownloadMarsRoverImagesAsync(dates);
             var viewModels = new List<DatedImagesViewModel>();
             if (images == null || !images.Any())
                 return Ok(viewModels);
