@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 
 namespace MarsRover.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ImageController : ControllerBase
     {
@@ -29,6 +28,7 @@ namespace MarsRover.Api.Controllers
         }
 
         [HttpGet]
+        [Route("api/[controller]/download")]
         public async Task<IActionResult> DownloadImagesAsync([FromForm]IFormFile file)
         {
             if (file == null)
