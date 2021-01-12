@@ -15,13 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsRover.Tests", "Tests\Ma
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{5975417E-F6CA-4E37-9985-67074E11FC8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRover.Config.Models", "Support\Config\MarsRover.Config.Models\MarsRover.Config.Models.csproj", "{BC9BAA16-8D15-4BBD-9253-3E49A9E7F753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsRover.Config.Models", "Support\Config\MarsRover.Config.Models\MarsRover.Config.Models.csproj", "{BC9BAA16-8D15-4BBD-9253-3E49A9E7F753}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{87B25385-6266-4621-B392-ACA3D50DB70F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsRover.Core.Models", "Support\Core\MarsRover.Core.Models\MarsRover.Core.Models.csproj", "{B0717938-07B4-4A9F-9BFE-6557C44BD4A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsRover.Core.Services", "Support\Core\MarsRover.Core.Services\MarsRover.Core.Services.csproj", "{905CA6B3-F6A9-4161-8140-E03EB482A7E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRover.Web", "Web\MarsRover.Web\MarsRover.Web.csproj", "{117B28E0-43F6-47AC-8943-29E82C2C8CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{905CA6B3-F6A9-4161-8140-E03EB482A7E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{905CA6B3-F6A9-4161-8140-E03EB482A7E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{905CA6B3-F6A9-4161-8140-E03EB482A7E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{117B28E0-43F6-47AC-8943-29E82C2C8CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{117B28E0-43F6-47AC-8943-29E82C2C8CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{117B28E0-43F6-47AC-8943-29E82C2C8CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{117B28E0-43F6-47AC-8943-29E82C2C8CDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{87B25385-6266-4621-B392-ACA3D50DB70F} = {0BE1B944-60BC-4C57-BB7A-03760169036A}
 		{B0717938-07B4-4A9F-9BFE-6557C44BD4A9} = {87B25385-6266-4621-B392-ACA3D50DB70F}
 		{905CA6B3-F6A9-4161-8140-E03EB482A7E2} = {87B25385-6266-4621-B392-ACA3D50DB70F}
+		{117B28E0-43F6-47AC-8943-29E82C2C8CDD} = {CE8B1644-1367-41F8-996E-A2B9C9166945}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C34087E-A8BB-469E-AE5B-3E0B28A59D55}
